@@ -13,7 +13,7 @@ export class Web3Service {
     private transactionProducer: TransactionProducer,
   ) {
     this.web3Instance = new Web3(
-      this.configService.get<string>('PROVIDER_INFURA_HTTPS'),
+      this.configService.get<string>('PROVIDER_PRIMARY_HTTPS'),
     );
 
     if (!this.web3Instance.currentProvider) {
