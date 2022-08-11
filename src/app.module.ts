@@ -8,7 +8,6 @@ import { BlockModule } from './block/block.module';
 import { Web3Module } from './web3/web3.module';
 import { AddressModule } from './address/address.module';
 import { TransactionModule } from './transaction/transaction.module';
-import { ContractModule } from './contract/contract.module';
 import { ListenerModule } from './listener/listener.module';
 import { BullModule } from '@nestjs/bull';
 @Module({
@@ -18,7 +17,6 @@ import { BullModule } from '@nestjs/bull';
     Web3Module,
     AddressModule,
     TransactionModule,
-    ContractModule,
     ListenerModule,
     ConfigModule.forRoot({
       isGlobal: true,

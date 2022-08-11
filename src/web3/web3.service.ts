@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TransactionProducer } from 'src/transaction/jobs/transaction.producer';
 import Web3 from 'web3';
+import ERC20 from 'src/contract/abi/erc20.json';
+import abiDecoder from 'abi-decoder';
 
 @Injectable()
 export class Web3Service {
@@ -47,5 +49,22 @@ export class Web3Service {
       blockNumber,
       indexNumber,
     );
+  }
+
+  async readInput(input: string, address: string) {
+    try {
+      const ABI = JSON.parse(JSON.stringify(ERC20));
+      abiDecoder.addABI(ABI);
+      const transaction = abiDecoder.decodeMethod(input);
+      const contract = new this.web3Instance.eth.Contract(ABI, address);
+      const symbol = await contract.methods
+        .symbol()
+        .call()
+        .then((result) => result);
+      transaction.symbol = symbol;
+      return transaction;
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }

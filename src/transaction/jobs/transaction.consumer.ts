@@ -1,5 +1,7 @@
 import {
   OnQueueCompleted,
+  OnQueueError,
+  OnQueueFailed,
   OnQueueProgress,
   Process,
   Processor,
@@ -14,12 +16,18 @@ export class TransactionConsumer {
   async transactionHashJob(hash) {
     const { data } = hash;
     const transaction = await this.web3Service.getTransaction(data);
+
     // Is ETH
     if (transaction.input == '0x') {
       console.log('Transaction for ETH');
-      console.log(transaction);
     } else {
-      console.log('Transaction for other Token');
+      const decoded = await this.web3Service.readInput(
+        transaction.input,
+        transaction.to,
+      );
+      transaction.input = decoded;
+      console.log(`Transaction for ${decoded.symbol}`);
+      console.log('Transaction', transaction);
     }
   }
 
@@ -31,5 +39,15 @@ export class TransactionConsumer {
   @OnQueueProgress()
   onProgress() {
     console.log('On progress...');
+  }
+
+  @OnQueueError()
+  onQueueError() {
+    console.log('Error');
+  }
+
+  @OnQueueFailed()
+  onQueueFailed(err) {
+    console.log('Failed', err.failedReason);
   }
 }
