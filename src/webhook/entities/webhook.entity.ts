@@ -1,9 +1,13 @@
+import { SupportedToken } from 'src/supported-tokens/entities/supported-token.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity({ name: 'webhooks' })
@@ -14,8 +18,11 @@ export class Webhook {
   @Column()
   label: string;
 
-  @Column()
-  coin: string;
+  @ManyToOne(
+    () => SupportedToken,
+    (supportedToken: SupportedToken) => supportedToken.webhook,
+  )
+  token: SupportedToken;
 
   @Column()
   address: string;

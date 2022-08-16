@@ -1,6 +1,6 @@
 # w3d_webhook
 
-### WebHook 
+### WebHook ERC20
 
 - ETH
 - USDT

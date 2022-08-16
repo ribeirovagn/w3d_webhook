@@ -14,8 +14,6 @@ export class WebhookService {
     private webHookRepository: Repository<Webhook>,
   ) {}
 
-  init() {}
-
   async create(createWebhookDto: CreateWebhookDto): Promise<Webhook> {
     const webhook = this.webHookRepository.create(createWebhookDto);
     return await this.webHookRepository.save(webhook);

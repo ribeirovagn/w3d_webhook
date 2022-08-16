@@ -10,6 +10,7 @@ import { AddressModule } from './address/address.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { ListenerModule } from './listener/listener.module';
 import { BullModule } from '@nestjs/bull';
+import { SupportedTokensModule } from './supported-tokens/supported-tokens.module';
 @Module({
   imports: [
     WebhookModule,
@@ -28,6 +29,7 @@ import { BullModule } from '@nestjs/bull';
         port: 6379,
       },
     }),
+    SupportedTokensModule,
   ],
   controllers: [AppController],
 })

@@ -21,7 +21,7 @@ export class ListenerController {
   async init() {
     setTimeout(async () => {
       await this.getLastBlockNumber();
-      if (!this.isSync) {
+      if (!this.isSync && this.block.transactions) {
         this.web3Service.setTransactions(this.block.transactions);
         this.incrementBlockNumber(this.lastBlockNumber.number);
         console.log('Web3 BlockNumber', this.web3Block);

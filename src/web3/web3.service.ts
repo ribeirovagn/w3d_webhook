@@ -40,7 +40,8 @@ export class Web3Service {
   async setTransactions(transactionsHash: string[]) {
     this.transaction = [];
     transactionsHash.forEach(async (hash: string) => {
-      this.transactionProducer.listener(hash);
+      const tx = await this.getTransaction(hash);
+      this.transactionProducer.listener(tx);
     });
   }
 
@@ -57,11 +58,21 @@ export class Web3Service {
       abiDecoder.addABI(ABI);
       const transaction = abiDecoder.decodeMethod(input);
       const contract = new this.web3Instance.eth.Contract(ABI, address);
-      const symbol = await contract.methods
+      transaction.symbol = await contract.methods
         .symbol()
         .call()
         .then((result) => result);
-      transaction.symbol = symbol;
+
+      transaction.name = await contract.methods
+        .name()
+        .call()
+        .then((result) => result);
+
+      transaction.decimals = await contract.methods
+        .decimals()
+        .call()
+        .then((result) => result);
+
       return transaction;
     } catch (err) {
       throw new Error(err);

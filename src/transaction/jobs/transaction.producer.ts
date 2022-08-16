@@ -6,7 +6,7 @@ import { Queue } from 'bull';
 export class TransactionProducer {
   constructor(@InjectQueue('transactions-queue') private queue: Queue) {}
 
-  async listener(transactionHash: string) {
+  async listener(transactionHash: any) {
     this.queue.add('transaction-listener', transactionHash);
   }
 }
